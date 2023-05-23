@@ -1,10 +1,8 @@
-import { Router } from 'express'
+import { Router } from 'express';
+import TransactonRoutes from './transaction.route';
 
+const router = Router();
 
+router.use('/transaction', TransactonRoutes);
 
-const router = Router()
-
-router.use('/classes', classRoutes)
-
-
-export default router
+export default router;

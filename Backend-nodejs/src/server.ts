@@ -1,5 +1,9 @@
-import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import express, { Application, Request, Response } from 'express';
+import 'reflect-metadata';
+import sequelizeConnection from '../config/database';
+import { initializeModels } from './models';
+import router from './routes';
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -10,15 +14,16 @@ const PORT = 3000;
 app.use(express.json());
 
 // Routes
-app.use('/transactions', transactionRoutes);
+app.use('/transactions', router);
 
 // Default route
 app.get('/', (req: Request, res: Response) => {
   res.send('Finance Tracker API');
 });
+const models = initializeModels(sequelizeConnection);
 
 // Start the server
-sequelize
+sequelizeConnection
   .sync()
   .then(() => {
     app.listen(PORT, () => {
