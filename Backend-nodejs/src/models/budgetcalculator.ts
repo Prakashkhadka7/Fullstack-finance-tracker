@@ -10,6 +10,10 @@ export class BudgetCalculator extends Model {
   public isDeleted!: boolean;
   public startDate!: Date;
   public endDate!: Date;
+  public income!: number;
+  public expense!: number;
+  public savings!: number;
+  public investment!: number;
 
   static initialize(sequelize: Sequelize) {
     this.init(

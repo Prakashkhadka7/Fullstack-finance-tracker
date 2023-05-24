@@ -3,6 +3,8 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 export class Income extends Model {
   public id!: number;
   public source!: string;
+  public type!: number;
+  public amount!: number;
 
   static initialize(sequelize: Sequelize) {
     this.init(
@@ -17,6 +19,14 @@ export class Income extends Model {
           type: DataTypes.STRING,
           allowNull: false,
         },
+        type: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        amount: {
+          type: DataTypes.FLOAT,
+          allowNull: false,
+        },
       },
       {
         sequelize,
@@ -28,8 +38,9 @@ export class Income extends Model {
 
   static associate(models: any) {
     this.belongsTo(models.JobType, {
-      foreignKey: 'jobTypeId',
+      foreignKey: 'type',
       as: 'jobType',
+      constraints: true,
     });
   }
 }

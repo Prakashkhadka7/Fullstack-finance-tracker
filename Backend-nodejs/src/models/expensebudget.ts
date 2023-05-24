@@ -1,8 +1,14 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-export class Expense extends Model {
+export class ExpenseBudget extends Model {
+  static save() {
+    throw new Error('Method not implemented.');
+  }
   public id!: number;
   public allocatedAmount!: number;
+  public categoryId!: number;
+  static categoryId: any;
+  static allocatedAmount: any;
 
   static initialize(sequelize: Sequelize) {
     this.init(
@@ -20,7 +26,7 @@ export class Expense extends Model {
       },
       {
         sequelize,
-        tableName: 'expenses',
+        tableName: 'expenseBudget',
         modelName: 'Expense',
       }
     );

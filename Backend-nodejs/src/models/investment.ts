@@ -3,6 +3,8 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 export class Investment extends Model {
   public id!: number;
   public amount!: number;
+  public categoryId!: number;
+  public investmentCategoryId!: number;
 
   static initialize(sequelize: Sequelize) {
     this.init(

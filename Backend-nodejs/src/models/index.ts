@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { BudgetCalculator } from './budgetcalculator';
 import { DailyTransaction } from './dailytransaction';
-import { Expense } from './expense';
+import { ExpenseBudget } from './expensebudget';
 import { ExpenseCategory } from './expensecategory';
 import { Income } from './income';
 import { Investment } from './investment';
@@ -19,7 +19,7 @@ export function initializeModels(sequelize: Sequelize) {
     TimePeriod: TimePeriod.initialize(sequelize),
     Income: Income.initialize(sequelize),
     ExpenseCategory: ExpenseCategory.initialize(sequelize),
-    Expense: Expense.initialize(sequelize),
+    Expense: ExpenseBudget.initialize(sequelize),
     SavingsCategory: SavingsCategory.initialize(sequelize),
     Savings: Savings.initialize(sequelize),
     InvestmentCategory: InvestmentCategory.initialize(sequelize),
@@ -30,6 +30,59 @@ export function initializeModels(sequelize: Sequelize) {
 
   // Define associations between models
   // Example: models.Income.belongsTo(models.JobType);
-
   return models;
+}
+
+export function defineAssociations(sequelize: Sequelize): void {
+  // Associations for Transaction model (if any)
+
+  // Associations for Income model
+  Income.belongsTo(JobType, {
+    foreignKey: 'jobTypeId',
+    as: 'jobType',
+  });
+
+  // Associations for Expense model
+  ExpenseBudget.belongsTo(ExpenseCategory, {
+    foreignKey: 'expenseCategoryId',
+    as: 'expenseCategory',
+  });
+
+  // Associations for Savings model
+  Savings.belongsTo(JobType, {
+    foreignKey: 'jobTypeId',
+    as: 'jobType',
+  });
+  Savings.belongsTo(SavingsCategory, {
+    foreignKey: 'savingsCategoryId',
+    as: 'savingsCategory',
+  });
+
+  // Associations for Investment model
+  Investment.belongsTo(InvestmentCategory, {
+    foreignKey: 'investmentCategoryId',
+    as: 'investmentCategory',
+  });
+
+  // Associations for DailyTransaction model
+  DailyTransaction.belongsTo(ExpenseBudget, {
+    foreignKey: 'expenseId',
+    as: 'expense',
+  });
+  DailyTransaction.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
+  });
+
+  // Associations for BudgetCalculator model (if any)
+  BudgetCalculator.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
+  });
+  BudgetCalculator.belongsTo(DailyTransaction, {
+    foreignKey: 'dailyTransactionId',
+    as: 'dailyTransaction',
+  });
+
+  // ...
 }

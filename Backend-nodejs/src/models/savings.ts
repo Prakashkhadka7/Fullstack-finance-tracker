@@ -2,7 +2,9 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class Savings extends Model {
   public id!: number;
-
+  public jobTypeId!: number;
+  public savingsCategoryId!: number;
+  public amount!: number;
   static initialize(sequelize: Sequelize) {
     this.init(
       {
@@ -10,6 +12,10 @@ export class Savings extends Model {
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
+          allowNull: false,
+        },
+        amount: {
+          type: DataTypes.STRING,
           allowNull: false,
         },
       },
