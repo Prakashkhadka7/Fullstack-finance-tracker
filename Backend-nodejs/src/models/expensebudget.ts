@@ -38,4 +38,16 @@ export class ExpenseBudget extends Model {
       as: 'category',
     });
   }
+  public static async deductExpenseBudget(amount: number): Promise<void> {
+    try {
+      const expense = await ExpenseBudget.findOne();
+
+      if (expense) {
+        expense.allocatedAmount -= amount;
+        await expense.save();
+      }
+    } catch (error) {
+      console.error('Error deducting expense budget:', error);
+    }
+  }
 }

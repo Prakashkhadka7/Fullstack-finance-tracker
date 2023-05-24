@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { DailyTransaction } from '../models/dailytransaction';
+import { ExpenseBudget } from '../models/expensebudget';
 
 export const createDailyTransaction = async (req: Request, res: Response) => {
   try {
@@ -9,6 +10,7 @@ export const createDailyTransaction = async (req: Request, res: Response) => {
       expenditureType,
       amount,
     });
+    await ExpenseBudget.deductExpenseBudget(amount);
 
     res.status(201).json(dailyTransaction);
   } catch (error) {
