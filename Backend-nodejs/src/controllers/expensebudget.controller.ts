@@ -40,10 +40,10 @@ export const updateExpense = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Expense not found' });
     }
 
-    ExpenseBudget.categoryId = categoryId;
-    ExpenseBudget.allocatedAmount = allocatedAmount;
+    expense.categoryId = categoryId;
+    expense.allocatedAmount = allocatedAmount;
 
-    await ExpenseBudget.save();
+    await expense.save();
 
     res.status(200).json(expense);
   } catch (error) {

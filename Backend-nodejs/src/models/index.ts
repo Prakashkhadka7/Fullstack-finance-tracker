@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { BudgetCalculator } from './budgetcalculator';
-import { DailyTransaction } from './dailytransaction';
+import { DailyExpense } from './dailyexpenses';
 import { ExpenseBudget } from './expensebudget';
 import { ExpenseCategory } from './expensecategory';
 import { Income } from './income';
@@ -24,7 +24,7 @@ export function initializeModels(sequelize: Sequelize) {
     Savings: Savings.initialize(sequelize),
     InvestmentCategory: InvestmentCategory.initialize(sequelize),
     Investment: Investment.initialize(sequelize),
-    DailyTransaction: DailyTransaction.initialize(sequelize),
+    DailyExpense: DailyExpense.initialize(sequelize),
     BudgetCalculator: BudgetCalculator.initialize(sequelize),
   };
 
@@ -64,12 +64,12 @@ export function defineAssociations(sequelize: Sequelize): void {
     as: 'investmentCategory',
   });
 
-  // Associations for DailyTransaction model
-  DailyTransaction.belongsTo(ExpenseBudget, {
+  // Associations for DailyExpense model
+  DailyExpense.belongsTo(ExpenseBudget, {
     foreignKey: 'expenseId',
     as: 'expense',
   });
-  DailyTransaction.belongsTo(User, {
+  DailyExpense.belongsTo(User, {
     foreignKey: 'userId',
     as: 'user',
   });
@@ -79,9 +79,9 @@ export function defineAssociations(sequelize: Sequelize): void {
     foreignKey: 'userId',
     as: 'user',
   });
-  BudgetCalculator.belongsTo(DailyTransaction, {
-    foreignKey: 'dailyTransactionId',
-    as: 'dailyTransaction',
+  BudgetCalculator.belongsTo(DailyExpense, {
+    foreignKey: 'DailyExpenseId',
+    as: 'DailyExpense',
   });
 
   // ...

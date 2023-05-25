@@ -1,9 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class ExpenseBudget extends Model {
-  static save() {
-    throw new Error('Method not implemented.');
-  }
   public id!: number;
   public allocatedAmount!: number;
   public categoryId!: number;
@@ -49,5 +46,17 @@ export class ExpenseBudget extends Model {
     } catch (error) {
       console.error('Error deducting expense budget:', error);
     }
+  }
+
+  public static async getTotalBudget(): Promise<number> {
+    try {
+      const expenseBudget = await ExpenseBudget.findOne();
+      if (expenseBudget) {
+        return expenseBudget.allocatedAmount;
+      }
+    } catch (error) {
+      console.error('Error getting total budget:', error);
+    }
+    return 0;
   }
 }

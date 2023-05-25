@@ -1,20 +1,17 @@
-import express, { Request, Response } from 'express';
-import { TransactionModel } from '../models/transaction.model';
+import express from 'express';
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  updateUser,
+} from '../controllers/user.controller';
 
-const TransactonRoutes = express.Router();
+const userRoutes = express.Router();
 
-// Route to create a new transaction
-TransactonRoutes.post('/', async (req: Request, res: Response) => {
-  try {
-    const { description, amount } = req.body;
-    const transaction = await TransactionModel.create({ description, amount });
-    res.status(201).json(transaction);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+// Define user routes
+userRoutes.get('/:id', getUser);
+userRoutes.post('/', createUser);
+userRoutes.put('/:id', updateUser);
+userRoutes.delete('/:id', deleteUser);
 
-// Add more routes as per your requirements
-
-export default TransactonRoutes;
+export default userRoutes;

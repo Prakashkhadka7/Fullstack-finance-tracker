@@ -1,9 +1,16 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-export class DailyTransaction extends Model {
+export interface ExpenseFilters {
+  startDate?: Date | null;
+  endDate?: Date | null;
+  category?: string | string[] | null;
+}
+
+export class DailyExpense extends Model {
   public id!: number;
   public expenditureType!: string;
   public amount!: number;
+  public userId!: number;
 
   static initialize(sequelize: Sequelize) {
     this.init(
@@ -25,8 +32,8 @@ export class DailyTransaction extends Model {
       },
       {
         sequelize,
-        tableName: 'dailytransactions',
-        modelName: 'DailyTransaction',
+        tableName: 'DailyExpenses',
+        modelName: 'DailyExpense',
       }
     );
   }
@@ -42,4 +49,22 @@ export class DailyTransaction extends Model {
       as: 'user',
     });
   }
+
+  static calculateTotalExpenses = async (): Promise<number> => {
+    try {
+      // Retrieve all expenses from the database
+      const expenses = await DailyExpense.findAll();
+
+      // Sum up the amounts of all expenses
+      const totalExpenditure = expenses.reduce(
+        (total, expense) => total + expense.amount,
+        0
+      );
+
+      return totalExpenditure;
+    } catch (error) {
+      console.error('Error calculating total expenditure:', error);
+      throw error;
+    }
+  };
 }

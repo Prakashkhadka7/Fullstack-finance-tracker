@@ -71,12 +71,12 @@ export class BudgetCalculator extends Model {
       as: 'user',
     });
 
-    this.belongsTo(models.DailyTransaction, {
-      foreignKey: 'dailyTransactionId',
-      as: 'dailyTransaction',
+    this.belongsTo(models.DailyExpense, {
+      foreignKey: 'DailyExpenseId',
+      as: 'DailyExpense',
     });
 
-    this.belongsTo(models.DailyTransaction, {
+    this.belongsTo(models.DailyExpense, {
       foreignKey: 'grandTotalId',
       as: 'grandTotal',
     });
